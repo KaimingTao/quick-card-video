@@ -128,15 +128,18 @@ def main() -> None:
     out_dir = next_output_dir(Path(args.output))
     image_path = out_dir / "figure.png"
     video_path = out_dir / "video.mp4"
+    text_path = out_dir / "text.md"
 
     image = render_image(text, IPHONE15_SIZE, config)
     image.save(image_path)
+    text_path.write_text(f"{text}\n", encoding="utf-8")
 
     clip = ImageClip(str(image_path)).with_duration(args.duration).with_fps(args.fps)
     clip.write_videofile(str(video_path), codec="libx264", audio=False)
 
     print(f"Saved image to: {image_path}")
     print(f"Saved video to: {video_path}")
+    print(f"Saved text to: {text_path}")
 
 
 if __name__ == "__main__":
